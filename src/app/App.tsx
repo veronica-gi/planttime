@@ -1,57 +1,49 @@
-import { useState } from "react";
-import { usePlants } from "../core/hooks/usePlants";
-import { PlantCard } from "../ui/components/PlantCard";
-import type { Plant } from "../core/models/Plant";
-import "../ui/styles/app.css";
+import { useState, useEffect } from "react"
+import { PlantForm } from "../ui/components/PlantForm"
+import { PlantCard } from "../ui/components/PlantCard"
+import { plantService } from "../core/services/plantService"
+import type { Plant } from "../core/models/Plant"
+import "../ui/styles/app.css"
 
 function App() {
-  const { plants, addPlant, removePlant } = usePlants();
-  const [name, setName] = useState("");
+  const [plants, setPlants] = useState<Plant[]>([])
 
-  const handleAdd = () => {
-  if (!name.trim()) return;
-  
-  const newPlant: Plant = {
-    id: crypto.randomUUID(),
-    name,
-    species: "",
-    lastWatered: new Date(),
-    wateringFrequency: 3, // valor por defecto (ej. cada 3 días)
-    notes: "",
-    imageUrl: ""
-  };
+  useEffect(() => {
+    setPlants(plantService.getAll())
+  }, [])
 
-  addPlant(newPlant);
-  setName("");
-};
+  const handleAddPlant = (plant: Plant) => {
+    setPlants((prev) => [...prev, plant])
+  }
 
+  const handleDeletePlant = (id: string) => {
+    plantService.remove(id)
+    setPlants((prev) => prev.filter((p) => p.id !== id))
+  }
 
   return (
-    <div className="app">
-      <h1>🌿 PlantTime</h1>
+    <div className="min-h-screen bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <h1 className="text-3xl font-bold text-center mb-4">🌿 PlantTime</h1>
 
-      <div className="add-plant">
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Nombre de la planta"
-        />
-        <button onClick={handleAdd}>Agregar</button>
-      </div>
+        {/* Formulario para registrar nuevas plantas */}
+        <PlantForm onAdd={handleAddPlant} />
 
-      <div className="plant-list">
-        {plants.length === 0 ? (
-          <p>No tienes plantas registradas aún.</p>
-        ) : (
-          plants.map((plant) => (
-            <PlantCard key={plant.id} plant={plant} onDelete={removePlant} />
-          ))
-        )}
+        {/* Lista de plantas registradas */}
+        <div className="grid gap-4 mt-6">
+          {plants.length === 0 ? (
+            <p className="text-center text-gray-500">No tienes plantas registradas aún.</p>
+          ) : (
+            plants.map((plant) => (
+              <PlantCard key={plant.id} plant={plant} onDelete={handleDeletePlant} />
+            ))
+          )}
+        </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+
 
