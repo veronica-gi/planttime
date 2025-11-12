@@ -1,62 +1,143 @@
+import { useState } from "react"
 import type { Plant } from "../../core/models/Plant"
 
 interface PlantCalendarProps {
   plants: Plant[]
 }
 
+interface CalendarEvent {
+  date: Date
+  type: "Riego" | "Fertilización"
+  plant: Plant
+}
+
 export function PlantCalendar({ plants }: PlantCalendarProps) {
-  const today = new Date()
+  const [currentMonth, setCurrentMonth] = useState(new Date())
 
-  // Función para calcular los días desde la última acción
-  const daysSince = (date: Date) => {
-    const diff = Math.floor(
-      (today.getTime() - new Date(date).getTime()) / (1000 * 60 * 60 * 24)
-    )
-    return diff
+  const year = currentMonth.getFullYear()
+  const month = currentMonth.getMonth()
+  const firstDayOfMonth = new Date(year, month, 1)
+  const lastDayOfMonth = new Date(year, month + 1, 0)
+  const daysInMonth = lastDayOfMonth.getDate()
+  const startWeekDay = firstDayOfMonth.getDay() === 0 ? 6 : firstDayOfMonth.getDay() - 1 // lunes=0
+
+  const handlePrevMonth = () => setCurrentMonth(new Date(year, month - 1, 1))
+  const handleNextMonth = () => setCurrentMonth(new Date(year, month + 1, 1))
+
+  const isSameDay = (d1: Date, d2: Date) =>
+    d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getFullYear() === d2.getFullYear()
+
+  // Construir todos los días del mes
+  const weeks: (Date | null)[][] = []
+  let currentDay = 1 - startWeekDay
+  while (currentDay <= daysInMonth) {
+    const week: (Date | null)[] = []
+    for (let i = 0; i < 7; i++) {
+      if (currentDay > 0 && currentDay <= daysInMonth) {
+        week.push(new Date(year, month, currentDay))
+      } else {
+        week.push(null)
+      }
+      currentDay++
+    }
+    weeks.push(week)
   }
 
-  // Determinar si toca riego o fertilizante
-  const getStatus = (plant: Plant) => {
-    const days = daysSince(plant.lastWatered)
-    const needsWater = days >= plant.wateringFrequency
-    const needsFertilizer =
-      plant.fertilizingFrequency && days >= plant.fertilizingFrequency
+  // Generar eventos recurrentes dentro del mes
+  const events: CalendarEvent[] = []
+  plants.forEach((plant) => {
+    const startDate = new Date(plant.lastWatered)
+    // Riego
+    if (plant.wateringFrequency) {
+      let next = new Date(startDate)
+      while (next.getMonth() <= month && next <= lastDayOfMonth) {
+        if (next.getMonth() === month) {
+          events.push({ date: new Date(next), type: "Riego", plant })
+        }
+        next.setDate(next.getDate() + plant.wateringFrequency)
+      }
+    }
 
-    if (needsWater && needsFertilizer) return "💧🌿 Riego y fertilizante"
-    if (needsWater) return "💧 Riego"
-    if (needsFertilizer) return "🌿 Fertilizante"
-    return `✅ Próximo en ${Math.min(
-      plant.wateringFrequency - days,
-      plant.fertilizingFrequency - days
-    )} días`
-  }
+    // Fertilización
+    if (plant.fertilizingFrequency) {
+      let next = new Date(startDate)
+      while (next.getMonth() <= month && next <= lastDayOfMonth) {
+        if (next.getMonth() === month) {
+          events.push({ date: new Date(next), type: "Fertilización", plant })
+        }
+        next.setDate(next.getDate() + plant.fertilizingFrequency)
+      }
+    }
+  })
 
   return (
-    <div className="mt-8 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Calendario de cuidado 🌱</h2>
+    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow-md">
+      <div className="flex justify-between items-center mb-3">
+        <button
+          onClick={handlePrevMonth}
+          className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md"
+        >
+          ←
+        </button>
+        <h2 className="text-xl font-semibold">
+          {currentMonth.toLocaleString("es-ES", { month: "long", year: "numeric" })}
+        </h2>
+        <button
+          onClick={handleNextMonth}
+          className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md"
+        >
+          →
+        </button>
+      </div>
 
-      {plants.length === 0 ? (
-        <p className="text-gray-500">No tienes plantas registradas aún.</p>
-      ) : (
-        <ul className="space-y-3">
-          {plants.map((plant) => (
-            <li
-              key={plant.id}
-              className="p-3 border rounded-md flex items-center justify-between dark:border-zinc-700"
-            >
-              <div>
-                <p className="font-medium">{plant.name}</p>
-                <p className="text-sm text-gray-500">
-                  Último riego: {new Date(plant.lastWatered).toLocaleDateString()}
-                </p>
+      {/* Cabecera de días */}
+      <div className="grid grid-cols-7 gap-1 text-center font-semibold text-sm text-gray-500 mb-2">
+        {["L", "M", "X", "J", "V", "S", "D"].map((d) => (
+          <div key={d}>{d}</div>
+        ))}
+      </div>
+
+      {/* Filas de la cuadricula */}
+      <div className="grid grid-cols-7 gap-1">
+        {weeks.map((week, wi) =>
+          week.map((day, di) => {
+            const dayEvents = day ? events.filter((ev) => isSameDay(ev.date, day)) : []
+
+            return (
+              <div
+                key={`${wi}-${di}`}
+                className="border border-gray-200 dark:border-zinc-700 rounded-md min-h-[80px] p-1 text-sm relative bg-gray-50 dark:bg-zinc-900"
+              >
+                {day && (
+                  <>
+                    <div className="absolute top-1 right-1 text-xs text-gray-400">{day.getDate()}</div>
+                    <div className="mt-4 space-y-1">
+                      {dayEvents.map((ev, i) => (
+                        <div
+                          key={i}
+                          className={`text-xs px-1 py-0.5 rounded ${
+                            ev.type === "Riego"
+                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                              : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                          }`}
+                        >
+                          {ev.type} ({ev.plant.name})
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-              <span className="text-sm font-semibold">
-                {getStatus(plant)}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
+            )
+          })
+        )}
+      </div>
     </div>
   )
 }
+
+
+
+
