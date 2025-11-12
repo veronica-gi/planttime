@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { PlantForm } from "../ui/components/PlantForm"
 import { PlantCard } from "../ui/components/PlantCard"
+import { PlantCalendar } from "../ui/components/PlantCalendar" // 👈 nuevo import
 import { plantService } from "../core/services/plantService"
 import type { Plant } from "../core/models/Plant"
 import "../ui/styles/app.css"
@@ -32,18 +33,28 @@ function App() {
         {/* Lista de plantas registradas */}
         <div className="grid gap-4 mt-6">
           {plants.length === 0 ? (
-            <p className="text-center text-gray-500">No tienes plantas registradas aún.</p>
+            <p className="text-center text-gray-500">
+              No tienes plantas registradas aún.
+            </p>
           ) : (
             plants.map((plant) => (
-              <PlantCard key={plant.id} plant={plant} onDelete={handleDeletePlant} />
+              <PlantCard
+                key={plant.id}
+                plant={plant}
+                onDelete={handleDeletePlant}
+              />
             ))
           )}
         </div>
+
+        {/* Calendario de cuidados */}
+        <PlantCalendar plants={plants} /> 
       </div>
     </div>
   )
 }
 
 export default App
+
 
 

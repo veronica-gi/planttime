@@ -5,7 +5,7 @@ export interface Plant {
   lastWatered: Date
   wateringFrequency: number // en días
   lastFertilized?: Date
-  fertilizingFrequency?: number
+  fertilizingFrequency: number
   notes?: string
   imageUrl?: string
 }
