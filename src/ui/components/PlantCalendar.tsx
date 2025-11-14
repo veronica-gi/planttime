@@ -19,7 +19,7 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
   const firstDayOfMonth = new Date(year, month, 1)
   const lastDayOfMonth = new Date(year, month + 1, 0)
   const daysInMonth = lastDayOfMonth.getDate()
-  const startWeekDay = firstDayOfMonth.getDay() === 0 ? 6 : firstDayOfMonth.getDay() - 1 // lunes=0
+  const startWeekDay = (firstDayOfMonth.getDay() + 6) % 7 // lunes=0
 
   const handlePrevMonth = () => setCurrentMonth(new Date(year, month - 1, 1))
   const handleNextMonth = () => setCurrentMonth(new Date(year, month + 1, 1))
@@ -29,7 +29,7 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
     d1.getMonth() === d2.getMonth() &&
     d1.getFullYear() === d2.getFullYear()
 
-  // Construir todos los días del mes
+  // Construir semanas completas (7 días cada una)
   const weeks: (Date | null)[][] = []
   let currentDay = 1 - startWeekDay
   while (currentDay <= daysInMonth) {
@@ -45,17 +45,16 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
     weeks.push(week)
   }
 
-  // Generar eventos recurrentes dentro del mes
+  // Generar eventos de riego y fertilización
   const events: CalendarEvent[] = []
   plants.forEach((plant) => {
     const startDate = new Date(plant.lastWatered)
+
     // Riego
     if (plant.wateringFrequency) {
       let next = new Date(startDate)
-      while (next.getMonth() <= month && next <= lastDayOfMonth) {
-        if (next.getMonth() === month) {
-          events.push({ date: new Date(next), type: "Riego", plant })
-        }
+      while (next <= lastDayOfMonth) {
+        if (next.getMonth() === month) events.push({ date: new Date(next), type: "Riego", plant })
         next.setDate(next.getDate() + plant.wateringFrequency)
       }
     }
@@ -63,10 +62,8 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
     // Fertilización
     if (plant.fertilizingFrequency) {
       let next = new Date(startDate)
-      while (next.getMonth() <= month && next <= lastDayOfMonth) {
-        if (next.getMonth() === month) {
-          events.push({ date: new Date(next), type: "Fertilización", plant })
-        }
+      while (next <= lastDayOfMonth) {
+        if (next.getMonth() === month) events.push({ date: new Date(next), type: "Fertilización", plant })
         next.setDate(next.getDate() + plant.fertilizingFrequency)
       }
     }
@@ -74,37 +71,23 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
 
   return (
     <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow-md">
+      {/* Cabecera del mes */}
       <div className="flex justify-between items-center mb-3">
-        <button
-          onClick={handlePrevMonth}
-          className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md"
-        >
-          ←
-        </button>
-        <h2 className="text-xl font-semibold">
-          {currentMonth.toLocaleString("es-ES", { month: "long", year: "numeric" })}
-        </h2>
-        <button
-          onClick={handleNextMonth}
-          className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md"
-        >
-          →
-        </button>
+        <button onClick={handlePrevMonth} className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md">←</button>
+        <h2 className="text-xl font-semibold">{currentMonth.toLocaleString("es-ES", { month: "long", year: "numeric" })}</h2>
+        <button onClick={handleNextMonth} className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md">→</button>
       </div>
 
-      {/* Cabecera de días */}
+      {/* Días de la semana */}
       <div className="grid grid-cols-7 gap-1 text-center font-semibold text-sm text-gray-500 mb-2">
-        {["L", "M", "X", "J", "V", "S", "D"].map((d) => (
-          <div key={d}>{d}</div>
-        ))}
+        {["L", "M", "X", "J", "V", "S", "D"].map((d) => <div key={d}>{d}</div>)}
       </div>
 
-      {/* Filas de la cuadricula */}
+      {/* Semanas */}
       <div className="grid grid-cols-7 gap-1">
         {weeks.map((week, wi) =>
           week.map((day, di) => {
-            const dayEvents = day ? events.filter((ev) => isSameDay(ev.date, day)) : []
-
+            const dayEvents = day ? events.filter(ev => isSameDay(ev.date, day)) : []
             return (
               <div
                 key={`${wi}-${di}`}
@@ -137,6 +120,7 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
     </div>
   )
 }
+
 
 
 
