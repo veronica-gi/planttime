@@ -23,8 +23,8 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-red-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6 flex justify-center">
+      <div className="w-full max-w-none space-y-6">
 
         <h1 className="text-3xl font-bold text-center">🌿 PlantTime</h1>
 
@@ -47,10 +47,10 @@ function App() {
 
         {/* SELECTED VIEW */}
         {view === "plants" && (
-          <>
+          <div className="flex flex-col items-center">
             <PlantForm onAdd={handleAddPlant} />
 
-            <div className="grid gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3 justify-center">
               {plants.length === 0 ? (
                 <p className="text-center text-gray-500 dark:text-gray-400">
                   No tienes plantas registradas aún.
@@ -65,16 +65,23 @@ function App() {
                 ))
               )}
             </div>
-          </>
+          </div>
         )}
 
-        {view === "calendar" && <PlantCalendar plants={plants} />}
+        {view === "calendar" && (
+          <div className="flex justify-center">
+            <div className="w-full max-w-4xl">
+            <PlantCalendar plants={plants} />
+          </div>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
 export default App
+
 
 
 

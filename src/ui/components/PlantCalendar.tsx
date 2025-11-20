@@ -70,7 +70,9 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
   })
 
   return (
-    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow-md">
+    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow-md mx-auto w-full max-w-4xl m-8">
+
+
       {/* Cabecera del mes */}
       <div className="flex justify-between items-center mb-3">
         <button onClick={handlePrevMonth} className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded-md">←</button>
@@ -120,6 +122,7 @@ export function PlantCalendar({ plants }: PlantCalendarProps) {
     </div>
   )
 }
+
 
 
 
