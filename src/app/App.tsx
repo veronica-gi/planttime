@@ -26,10 +26,10 @@ function App() {
 
   return (
     
-    <div className="min-h-screen bg-red-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6 flex justify-center">
+    <div className="min-h-screen bg-green-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6 flex justify-center">
       <div className="w-full max-w-none space-y-6">
 
-        <h1 className="text-3xl font-bold text-center">🌿 PlantTime</h1>
+        <h1 className="text-3xl font-bold text-center">🌿 PlanTime 🌿</h1>
 
         {/* NAV VIEW SELECTOR */}
         <div className="flex justify-center gap-4 mb-6">
