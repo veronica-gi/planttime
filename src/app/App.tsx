@@ -5,6 +5,8 @@ import { PlantCalendar } from "../ui/components/PlantCalendar"
 import { plantService } from "../core/services/plantService"
 import type { Plant } from "../core/models/Plant"
 
+
+
 function App() {
   const [plants, setPlants] = useState<Plant[]>([])
   const [view, setView] = useState<"plants" | "calendar">("plants")
@@ -23,6 +25,7 @@ function App() {
   }
 
   return (
+    
     <div className="min-h-screen bg-red-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6 flex justify-center">
       <div className="w-full max-w-none space-y-6">
 
