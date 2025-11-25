@@ -8,20 +8,19 @@ import type { Plant } from "../core/models/Plant"
 
 
 function App() {
-  const [plants, setPlants] = useState<Plant[]>([])
+  const [plants, setPlants] = useState<Plant[]>(() => plantService.getAll())
   const [view, setView] = useState<"plants" | "calendar">("plants")
 
-  useEffect(() => {
-    setPlants(plantService.getAll())
-  }, [])
-
   const handleAddPlant = (plant: Plant) => {
-    setPlants((prev) => [...prev, plant])
+    const updated = [...plants, plant]
+    setPlants(updated)
+    plantService.saveAll(updated)
   }
 
   const handleDeletePlant = (id: string) => {
-    plantService.remove(id)
-    setPlants((prev) => prev.filter((p) => p.id !== id))
+    const updated = plants.filter(p => p.id !== id)
+    setPlants(updated)
+    plantService.saveAll(updated)
   }
 
   return (
