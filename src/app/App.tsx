@@ -11,6 +11,12 @@ function App() {
   const [plants, setPlants] = useState<Plant[]>(() => plantService.getAll())
   const [view, setView] = useState<"plants" | "calendar">("plants")
 
+  useEffect(() => {
+  const saved = plantService.getAll()
+  console.log("Cargando plantas:", saved)
+  setPlants(saved)
+}, [])
+
   const handleAddPlant = (plant: Plant) => {
     const updated = [...plants, plant]
     setPlants(updated)
