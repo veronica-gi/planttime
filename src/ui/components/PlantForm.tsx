@@ -43,7 +43,6 @@ export function PlantForm({ onAdd }: PlantFormProps) {
       fertilizingFrequency: Number(fertilizingFrequency),
     }
 
-    plantService.add(newPlant)
     onAdd(newPlant)
 
     setName("")
