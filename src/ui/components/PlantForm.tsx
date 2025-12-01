@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { plantService } from "../../core/services/plantService"
 import type { Plant } from "../../core/models/Plant"
+import { useImagePreview } from "../hooks/useImagePreview"
 
 interface PlantFormProps {
   onAdd: (plant: Plant) => void
@@ -11,18 +11,8 @@ export function PlantForm({ onAdd }: PlantFormProps) {
   const [species, setSpecies] = useState("")
   const [wateringFrequency, setWateringFrequency] = useState<number | "">("")
   const [fertilizingFrequency, setFertilizingFrequency] = useState<number | "">("")
-  const [imageFile, setImageFile] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setImageFile(file)
-      const reader = new FileReader()
-      reader.onload = () => setImagePreview(reader.result as string)
-      reader.readAsDataURL(file)
-    }
-  }
+  const { file: imageFile, preview: imagePreview, handleChange: handleImageChange, reset: resetImage } = useImagePreview()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,7 +29,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
       lastWatered: new Date(),
       wateringFrequency: Number(wateringFrequency),
       notes: "",
-      imageUrl: imagePreview || undefined, // aquí guardamos la imagen subida
+      imageUrl: imagePreview || undefined,
       fertilizingFrequency: Number(fertilizingFrequency),
     }
 
@@ -49,8 +39,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
     setSpecies("")
     setWateringFrequency("")
     setFertilizingFrequency("")
-    setImageFile(null)
-    setImagePreview(null)
+    resetImage()
   }
 
   return (
@@ -119,6 +108,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
     </form>
   )
 }
+
 
 
 
