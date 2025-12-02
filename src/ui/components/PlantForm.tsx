@@ -43,7 +43,10 @@ export function PlantForm({ onAdd }: PlantFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 bg-white dark:bg-zinc-800 p-4 sm:p-6 rounded-xl shadow-md w-full overflow-x-auto"
+    >
       <div>
         <label className="block text-sm font-semibold mb-1">Nombre de la planta *</label>
         <input
@@ -69,11 +72,16 @@ export function PlantForm({ onAdd }: PlantFormProps) {
         <label className="block text-sm font-semibold mb-1">Foto de la planta (opcional)</label>
         <input type="file" accept="image/*" onChange={handleImageChange} />
         {imagePreview && (
-          <img src={imagePreview} alt="Preview" className="mt-2 w-32 h-32 object-cover rounded-md" />
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="mt-2 w-full max-w-[150px] h-auto object-cover rounded-md"
+          />
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {/* Grid responsive: 1 columna en móviles, 2 en sm+ */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold mb-1">Frecuencia de riego (días) *</label>
           <input
@@ -108,6 +116,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
     </form>
   )
 }
+
 
 
 
