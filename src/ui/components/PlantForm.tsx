@@ -47,6 +47,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
       onSubmit={handleSubmit}
       className="space-y-4 bg-white dark:bg-zinc-800 p-4 sm:p-6 rounded-xl shadow-md w-full overflow-x-auto"
     >
+      {/* Nombre */}
       <div>
         <label className="block text-sm font-semibold mb-1">Nombre de la planta *</label>
         <input
@@ -58,6 +59,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
         />
       </div>
 
+      {/* Especie */}
       <div>
         <label className="block text-sm font-semibold mb-1">Especie</label>
         <input
@@ -68,9 +70,30 @@ export function PlantForm({ onAdd }: PlantFormProps) {
         />
       </div>
 
-      <div>
+      {/* Foto */}
+      <div className="flex flex-col">
         <label className="block text-sm font-semibold mb-1">Foto de la planta (opcional)</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <label
+            htmlFor="plant-image"
+            className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-md cursor-pointer hover:bg-gray-300 dark:hover:bg-zinc-600 text-sm"
+          >
+            Seleccionar archivo
+          </label>
+          <span className="text-xs text-gray-500 truncate max-w-xs">
+            {imageFile ? imageFile.name : "Ningún archivo seleccionado"}
+          </span>
+        </div>
+
+        <input
+          id="plant-image"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+        />
+
         {imagePreview && (
           <img
             src={imagePreview}
@@ -80,9 +103,9 @@ export function PlantForm({ onAdd }: PlantFormProps) {
         )}
       </div>
 
-      {/* Grid responsive: 1 columna en móviles, 2 en sm+ */}
+      {/* Frecuencia riego/fertilizante */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
+        <div className="flex flex-col">
           <label className="block text-sm font-semibold mb-1">Frecuencia de riego (días) *</label>
           <input
             type="number"
@@ -94,7 +117,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
           />
         </div>
 
-        <div>
+        <div className="flex flex-col">
           <label className="block text-sm font-semibold mb-1">Frecuencia de fertilizante (días) *</label>
           <input
             type="number"
@@ -107,6 +130,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
         </div>
       </div>
 
+      {/* Botón */}
       <button
         type="submit"
         className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md w-full"
@@ -116,6 +140,7 @@ export function PlantForm({ onAdd }: PlantFormProps) {
     </form>
   )
 }
+
 
 
 
