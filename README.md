@@ -12,6 +12,7 @@ Vista organizada con tarjetas limpias y modernas.
 
 Imágenes adaptadas automáticamente para móviles y escritorio.
 
+----------------------------------------------------------
 
 💧 Calendario de riegos y fertilización
 
@@ -23,6 +24,7 @@ Vista con “mostrar más…” cuando el contenido es largo.
 
 En escritorio, se mantiene la vista de calendario completa.
 
+------------------------------------------------------
 
 🖼️ Selector de imágenes mejorado
 
@@ -32,6 +34,7 @@ Nombre del archivo truncado para evitar que se corte en móviles.
 
 Vista previa automática.
 
+------------------------------------------------------
 
 📦 Tecnologías utilizadas
 
@@ -43,4 +46,23 @@ Vite
 
 Tailwind CSS
 
+-------------------------------------------------------
 
+🚀 Cómo ejecutar la app
+
+git clone https://github.com/veronica-gi/planttime.git
+cd planttime
+npm install
+npm run dev
+
+Esto abrirá la app en tu navegador en http://localhost:5173.
+
+Generar build de producción: npm run build
+Ver la app en producción localmente: npm run preview
+
+Esto sirve la build generada por Vite para probarla localmente.
+
+🌐 Ver la app en línea
+
+La app está disponible en GitHub Pages:
+https://veronica-gi.github.io/planttime/
