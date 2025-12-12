@@ -22,4 +22,12 @@ export const plantService = {
     const plants = this.getAll().filter((p) => p.id !== id)
     this.saveAll(plants)
   },
+
+  update(updatedPlant: Plant) {
+  const plants = this.getAll().map((p) =>
+    p.id === updatedPlant.id ? updatedPlant : p
+  )
+  this.saveAll(plants)
+},
+
 }

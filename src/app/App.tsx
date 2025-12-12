@@ -24,6 +24,12 @@ function App() {
     plantService.saveAll(updated)
   }
 
+  const handleUpdatePlant = (updatedPlant: Plant) => {
+  const updated = plants.map(p => (p.id === updatedPlant.id ? updatedPlant : p));
+  setPlants(updated);
+  plantService.saveAll(updated);
+}
+
   return (
     
     <div className="min-h-screen bg-green-100 dark:bg-zinc-900 text-gray-900 dark:text-white p-6 flex justify-center">
@@ -64,6 +70,7 @@ function App() {
                     key={plant.id}
                     plant={plant}
                     onDelete={handleDeletePlant}
+                    onUpdate={handleUpdatePlant}
                   />
                 ))
               )}

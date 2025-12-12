@@ -4,9 +4,10 @@ import type { Plant } from "../../core/models/Plant"
 interface PlantCardProps {
   plant: Plant
   onDelete?: (id: string) => void
+  onUpdate?: (plant: Plant) => void
 }
 
-export function PlantCard({ plant, onDelete }: PlantCardProps) {
+export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
   return (
     <div className="
       w-72 bg-white dark:bg-zinc-800 rounded-3xl shadow-lg 
@@ -58,20 +59,57 @@ export function PlantCard({ plant, onDelete }: PlantCardProps) {
           </p>
         )}
 
-        {/* Botón borrar */}
-        {onDelete && (
-          <button
-            onClick={() => onDelete(plant.id)}
-            className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
-          >
-            <Trash2 size={18} />
-            Eliminar
-          </button>
-        )}
+        {/* Botones */}
+        <div className="flex flex-col gap-2">
+          {onDelete && (
+            <button
+              onClick={() => onDelete(plant.id)}
+              className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
+            >
+              <Trash2 size={18} />
+              Eliminar
+            </button>
+          )}
+
+          {onUpdate && (
+            <button
+              onClick={() => {
+                const newName = prompt("Nombre de la planta", plant.name)
+                if (!newName) return
+
+                const newSpecies = prompt("Especie", plant.species || "")
+                if (newSpecies === null) return
+
+                const newImageUrl = prompt("URL de la foto", plant.imageUrl || "")
+                if (newImageUrl === null) return
+
+                const newWateringFrequency = prompt("Frecuencia de riego (días)", plant.wateringFrequency.toString())
+                if (!newWateringFrequency) return
+
+                const newFertilizingFrequency = prompt(
+                  "Frecuencia de fertilización (días)",
+                  plant.fertilizingFrequency?.toString() || ""
+                )
+                if (!newFertilizingFrequency) return
+
+                onUpdate({
+                  ...plant,
+                  name: newName,
+                  species: newSpecies,
+                  imageUrl: newImageUrl || undefined,
+                  wateringFrequency: Number(newWateringFrequency),
+                  fertilizingFrequency: Number(newFertilizingFrequency),
+                })
+              }}
+              className="w-full flex items-center justify-center gap-2 bg-white text-green-600 border border-green-600 py-2 rounded-xl hover:bg-green-50 transition"
+            >
+              Editar
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
 }
-
 
 
