@@ -4,16 +4,17 @@ import type { Plant } from "../../core/models/Plant"
 interface PlantCardProps {
   plant: Plant
   onDelete?: (id: string) => void
-  onUpdate?: (plant: Plant) => void
+  onEdit?: (plant: Plant) => void
 }
 
-export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
+export function PlantCard({ plant, onDelete, onEdit }: PlantCardProps) {
   return (
-    <div className="
-      w-72 bg-white dark:bg-zinc-800 rounded-3xl shadow-lg 
-      overflow-hidden transition-all hover:shadow-2xl hover:-translate-y-1
-    ">
-      
+    <div
+      className="
+        w-72 bg-white dark:bg-zinc-800 rounded-3xl shadow-lg
+        overflow-hidden transition-all hover:shadow-2xl hover:-translate-y-1
+      "
+    >
       {/* Imagen */}
       <div className="h-44 bg-gray-200 dark:bg-zinc-700">
         {plant.imageUrl ? (
@@ -47,12 +48,13 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
           {new Date(plant.lastWatered).toLocaleDateString()}
         </p>
 
-        {/* Frecuencias */}
+        {/* Frecuencia riego */}
         <p className="text-sm text-gray-500 dark:text-gray-300 flex items-center gap-2">
           <Droplet size={16} />
           Riego cada {plant.wateringFrequency} días
         </p>
 
+        {/* Frecuencia fertilización */}
         {plant.fertilizingFrequency && (
           <p className="text-sm text-gray-500 dark:text-gray-300 flex items-center gap-2">
             🌱 Fertilización cada {plant.fertilizingFrequency} días
@@ -60,48 +62,29 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
         )}
 
         {/* Botones */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pt-2">
           {onDelete && (
             <button
               onClick={() => onDelete(plant.id)}
-              className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
+              className="
+                w-full flex items-center justify-center gap-2
+                bg-red-500 text-white py-2 rounded-xl
+                hover:bg-red-600 transition
+              "
             >
               <Trash2 size={18} />
               Eliminar
             </button>
           )}
 
-          {onUpdate && (
+          {onEdit && (
             <button
-              onClick={() => {
-                const newName = prompt("Nombre de la planta", plant.name)
-                if (!newName) return
-
-                const newSpecies = prompt("Especie", plant.species || "")
-                if (newSpecies === null) return
-
-                const newImageUrl = prompt("URL de la foto", plant.imageUrl || "")
-                if (newImageUrl === null) return
-
-                const newWateringFrequency = prompt("Frecuencia de riego (días)", plant.wateringFrequency.toString())
-                if (!newWateringFrequency) return
-
-                const newFertilizingFrequency = prompt(
-                  "Frecuencia de fertilización (días)",
-                  plant.fertilizingFrequency?.toString() || ""
-                )
-                if (!newFertilizingFrequency) return
-
-                onUpdate({
-                  ...plant,
-                  name: newName,
-                  species: newSpecies,
-                  imageUrl: newImageUrl || undefined,
-                  wateringFrequency: Number(newWateringFrequency),
-                  fertilizingFrequency: Number(newFertilizingFrequency),
-                })
-              }}
-              className="w-full flex items-center justify-center gap-2 bg-white text-green-600 border border-green-600 py-2 rounded-xl hover:bg-green-50 transition"
+              onClick={() => onEdit(plant)}
+              className="
+                w-full flex items-center justify-center gap-2
+                bg-white text-green-600 border border-green-600
+                py-2 rounded-xl hover:bg-green-50 transition
+              "
             >
               Editar
             </button>
@@ -111,5 +94,6 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
     </div>
   )
 }
+
 
 
