@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import type { Plant } from "../../core/models/Plant";
 import { plantService } from "../../core/services/plantService";
 
