@@ -1,44 +1,45 @@
-PlantTime es una aplicación web creada con React + TypeScript + Vite que te ayuda a organizar el cuidado de tus plantas.
-Registra sus datos, añade fotos, gestiona el riego y la fertilización, y visualiza todo en un calendario inteligente y adaptable a móvil.
+🌿 PlantTime
+
+PlantTime is a web application built with React + TypeScript + Vite that helps you organize and manage the care of your plants.
+You can register plant data, add photos, manage watering and fertilizing schedules, and visualize everything in a smart, mobile-friendly calendar.
+
+✨ Main Features
+🌱 Plant Management
+
+Add plants with name, species, watering and fertilizing frequencies, image, and more.
+
+Edit plants using a modal form with pre-filled data.
+
+Delete plants easily.
+
+Clean and modern card-based layout.
+
+Images automatically adapt to mobile and desktop screens.
 
 
-Características principales:
+💧 Watering & Fertilizing Calendar
 
-🌱 Gestión de plantas
+Calendar with daily events.
 
-Añade plantas con nombre, descripción, tipo, imagen y más.
+Mobile-optimized design that avoids vertical text.
 
-Vista organizada con tarjetas limpias y modernas.
+“Show more…” option when content is too long.
 
-Imágenes adaptadas automáticamente para móviles y escritorio.
+Full calendar view maintained on desktop.
 
-----------------------------------------------------------
 
-💧 Calendario de riegos y fertilización
+🖼️ Enhanced Image Selector
 
-Calendario interactivo con eventos por día.
+Custom image upload button.
 
-Diseño especial para móviles, optimizado para evitar texto vertical.
+Truncated file names to prevent layout issues on mobile.
 
-Vista con “mostrar más…” cuando el contenido es largo.
+Automatic image preview before saving.
 
-En escritorio, se mantiene la vista de calendario completa.
 
-------------------------------------------------------
+📦 Technologies Used
 
-🖼️ Selector de imágenes mejorado
-
-Botón personalizado de subida de imagen.
-
-Nombre del archivo truncado para evitar que se corte en móviles.
-
-Vista previa automática.
-
-------------------------------------------------------
-
-📦 Tecnologías utilizadas
-
-React 
+React
 
 TypeScript
 
@@ -46,23 +47,26 @@ Vite
 
 Tailwind CSS
 
--------------------------------------------------------
 
-🚀 Cómo ejecutar la app
+🚀 How to Run the App
 
 git clone https://github.com/veronica-gi/planttime.git
 cd planttime
 npm install
 npm run dev
 
-Esto abrirá la app en tu navegador en http://localhost:5173.
 
-Generar build de producción: npm run build
-Ver la app en producción localmente: npm run preview
+This will open the app in your browser at
+👉 http://localhost:5173
 
-Esto sirve la build generada por Vite para probarla localmente.
+Production Build
+npm run build
 
-🌐 Ver la app en línea
+Preview Production Build Locally
+npm run preview
 
-La app está disponible en GitHub Pages:
-https://veronica-gi.github.io/planttime/
+🌐 Live Demo
+
+The app is available on GitHub Pages:
+👉 https://veronica-gi.github.io/planttime/
+
