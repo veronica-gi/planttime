@@ -12,4 +12,14 @@ describe('App', () => {
 });
 
 
+test("renders plant form", () => {
+  render(<App />)
+
+  expect(
+    screen.getByRole("button", { name: /agregar planta/i })
+  ).toBeInTheDocument()
+})
+
+
+
 
