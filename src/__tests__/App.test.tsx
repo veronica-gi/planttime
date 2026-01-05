@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from '../app/App';
 
 describe('App', () => {
@@ -21,5 +21,15 @@ test("renders plant form", () => {
 })
 
 
+test("switches to calendar view when clicking calendar button", () => {
+    render(<App />)
+
+    const calendarButton = screen.getByText(/calendario/i)
+    fireEvent.click(calendarButton)
+
+    expect(
+      screen.getByText(/calendario/i)
+    ).toBeInTheDocument()
+  })
 
 
