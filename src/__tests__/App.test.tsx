@@ -33,3 +33,12 @@ test("switches to calendar view when clicking calendar button", () => {
   })
 
 
+test("shows empty state message when there are no plants", () => {
+  render(<App />)
+
+  expect(
+    screen.getByText(/no tienes plantas registradas/i)
+  ).toBeInTheDocument()
+})
+
+
