@@ -3,6 +3,7 @@
 PlantTime is a web application built with React + TypeScript + Vite that helps you organize and manage the care of your plants.
 You can register plant data, add photos, manage watering and fertilizing schedules, and visualize everything in a smart, mobile-friendly calendar.
 
+
 ✨ Main Features
 🌱 Plant Management
 
@@ -17,6 +18,7 @@ Clean and modern card-based layout.
 Images automatically adapt to mobile and desktop screens.
 
 
+
 💧 Watering & Fertilizing Calendar
 
 Calendar with daily events.
@@ -28,6 +30,7 @@ Mobile-optimized design that avoids vertical text.
 Full calendar view maintained on desktop.
 
 
+
 🖼️ Enhanced Image Selector
 
 Custom image upload button.
@@ -35,6 +38,7 @@ Custom image upload button.
 Truncated file names to prevent layout issues on mobile.
 
 Automatic image preview before saving.
+
 
 
 📦 Technologies Used
@@ -46,6 +50,7 @@ TypeScript
 Vite
 
 Tailwind CSS
+
 
 
 🚀 How to Run the App
@@ -65,8 +70,25 @@ npm run build
 Preview Production Build Locally
 npm run preview
 
+
 🌐 Live Demo
 
 The app is available on GitHub Pages:
 👉 https://veronica-gi.github.io/planttime/
+
+
+
+🧪 Testing
+
+This project includes basic automated tests using Jest and React Testing Library.
+
+Covered tests:
+- Application renders correctly
+- Main title is displayed
+- Plant form inputs are present
+
+🧪 Run tests
+
+npm run test
+
 
