@@ -46,7 +46,7 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
           )}
 
           <p className="text-sm text-gray-500 dark:text-gray-300 flex items-center gap-2">
-            <Calendar size={16} />
+            <Calendar size={16} aria-hidden="true" />
             Último riego: {new Date(plant.lastWatered).toLocaleDateString()}
           </p>
 
