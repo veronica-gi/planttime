@@ -23,6 +23,28 @@ export function EditPlantModal({ plant, isOpen, onClose, onSave }: EditPlantModa
     setImageUrl(plant.imageUrl || "")
   }, [plant])
 
+  // ESC + focus al abrir
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    // foco automático en el primer input
+    setTimeout(() => {
+      document.querySelector<HTMLInputElement>("input")?.focus()
+    }, 0)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [isOpen, onClose])
+
   if (!isOpen) return null
 
   const handleSubmit = (e: React.FormEvent) => {
