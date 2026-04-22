@@ -77,9 +77,10 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
             {onUpdate && (
               <button
                 onClick={() => setIsEditing(true)}
+                aria-label="Editar planta"
                 className="w-full flex items-center justify-center gap-2 bg-white text-green-600 border border-green-600 py-2 rounded-xl hover:bg-green-50 transition"
               >
-                <Pencil size={18} />
+                <Pencil size={18} aria-hidden="true" />
                 Editar
               </button>
             )}
