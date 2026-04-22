@@ -25,7 +25,7 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
           {plant.imageUrl ? (
             <img
               src={plant.imageUrl}
-              alt={plant.name}
+              alt={`Foto de ${plant.name}, especie ${plant.species ?? "desconocida"}`}
               className="w-full h-full object-cover"
             />
           ) : (
