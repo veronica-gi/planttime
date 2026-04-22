@@ -66,9 +66,10 @@ export function PlantCard({ plant, onDelete, onUpdate }: PlantCardProps) {
             {onDelete && (
               <button
                 onClick={() => onDelete(plant.id)}
+                aria-label="Eliminar planta"
                 className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
               >
-                <Trash2 size={18} />
+                <Trash2 size={18} aria-hidden="true" />
                 Eliminar
               </button>
             )}
