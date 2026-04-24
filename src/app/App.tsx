@@ -28,6 +28,12 @@ function App() {
     const updated = plants.filter(p => p.id !== id)
     setPlants(updated)
     plantService.saveAll(updated)
+
+    setMessage("Planta eliminada correctamente")
+
+      setTimeout(() => {
+      setMessage("")
+    }, 3000)
   }
 
   const handleUpdatePlant = (updatedPlant: Plant) => {
