@@ -10,12 +10,18 @@ import type { Plant } from "../core/models/Plant"
 function App() {
   const [plants, setPlants] = useState<Plant[]>(() => plantService.getAll())
   const [view, setView] = useState<"plants" | "calendar">("plants")
-
+  const [message, setMessage] = useState("")
   
   const handleAddPlant = (plant: Plant) => {
     const updated = [...plants, plant]
     setPlants(updated)
     plantService.saveAll(updated);
+
+    setMessage("Planta añadida correctamente")
+
+      setTimeout(() => {
+      setMessage("")
+    }, 3000)
   };
 
   const handleDeletePlant = (id: string) => {
@@ -36,6 +42,14 @@ function App() {
       <div className="w-full max-w-none space-y-6">
 
         <h1 className="text-3xl font-bold text-center">🌿 PlanTime 🌿</h1>
+        {message && (
+          <div
+             className="text-center bg-white dark:bg-zinc-800 border border-orange-400 text-orange-600 px-4 py-2 rounded-md shadow"
+              aria-live="polite"
+          >
+            {message}
+        </div>
+      )}
 
         {/* NAV VIEW SELECTOR */}
         <div className="flex justify-center gap-4 mb-6">
