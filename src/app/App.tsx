@@ -50,8 +50,8 @@ function App() {
         <h1 className="text-3xl font-bold text-center">🌿 PlanTime 🌿</h1>
         {message && (
           <div
-             className="text-center bg-white dark:bg-zinc-800 border border-orange-400 text-orange-600 px-4 py-2 rounded-md shadow"
-              aria-live="polite"
+             className="fixed top-4 right-4 bg-white dark:bg-zinc-800 border border-orange-400 text-orange-600 px-4 py-2 rounded-md shadow-lg z-50"
+            aria-live="polite"
           >
             {message}
         </div>
