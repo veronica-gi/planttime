@@ -40,6 +40,12 @@ function App() {
   const updated = plants.map(p => (p.id === updatedPlant.id ? updatedPlant : p));
   setPlants(updated);
   plantService.saveAll(updated);
+
+  setMessage("Planta actualizada correctamente")
+
+    setTimeout(() => {
+    setMessage("")
+  }, 3000)
 }
 
   return (
